@@ -1,7 +1,7 @@
 Query 1: Montly Sales Analysis
 
--- This query extracts and manipulates sales data to focus on monthly sales.
--- It converts the OrderDateKey to a character type for month and year extraction and filters the data
+-- In this query, I extract and manipulate sales data to focus on monthly sales.
+-- I convert the OrderDateKey to a character type for month and year extraction and filter the data.
 -- to include sales for all countries during the year 2012.
 
 SELECT
@@ -15,9 +15,10 @@ WHERE
 
 Query 2: Product Sales By Sub-Categories Analysis
 
--- This query examines product sales categorized by subcategories.
--- It provides insights into how different product subcategories perform in terms of sales.
--- Valuable information for optimizing product strategies.
+-- Getting the product sales categorized by subcategories.
+-- Helps provide insights into how different product subcategories perform in terms of sales,
+-- valuable information for optimizing product strategies.
+
 
 WITH CTE_ProductSales AS (
     -- Common Table Expression to join and analyze sales data
@@ -40,7 +41,8 @@ SELECT
 
 Query 3: Sales by Customers with Children and No Children
 
--- Common Table Expression (CTE) to retrieve sales data for bike-related products
+-- In this query, I use a Common Table Expression (CTE) to retrieve sales data for bike-related products.
+    
 WITH bike_sales AS
 (
     -- Retrieves relevant columns for bike sales, joining necessary tables and applying filters
@@ -81,7 +83,9 @@ GROUP BY
 
 Query 4: Sales By Country Analysis
 
--- Common Table Expression (CTE) to join and analyze sales data
+-- I use a Common Table Expression (CTE) to join and analyze sales data, focusing on sales by country.
+-- The data is filtered for the year 2013, and the results are presented with a count of sales for each country.
+
 WITH CTE_Sales AS (
     SELECT
         -- Selecting relevant columns from the data
@@ -95,7 +99,7 @@ WITH CTE_Sales AS (
     JOIN
         AdventureWorksDW2019.DBO.DimGeography AS G ON C.GeographyKey = G.GeographyKey
     WHERE
-        SUBSTRING(CAST(S.OrderDateKey AS CHAR), 1, 4) = '2013' -- Filters data for the year 2013
+        SUBSTRING(CAST(S.OrderDateKey AS CHAR), 1, 4) = '2013'
 )
 -- Analyzing sales data for countries
 SELECT
@@ -109,8 +113,10 @@ ORDER BY
     RegionName; -- Controlling the order of the rows
 
 Query 5: Sales by Commute Distance Analysis
+    
+-- I retrieve sales data for commute distance, joining necessary tables and applying filters.
+-- The analysis provides insights into sales based on commute distance for specific product subcategories.
 
--- Common Table Expression (CTE) to retrieve sales data for commute distance
 WITH CommuteSales AS
 (
     -- Retrieves relevant columns for sales by commute distance, joining necessary tables and applying filters
@@ -137,15 +143,15 @@ Query 6: Sales BY Age Groups
 
 -- Analyzing Sales by Customer Age Groups
 
--- This query examines sales data categorized by customer age groups.
--- It calculates customer ages based on birthdates and order dates, and then analyzes sales data.
--- Understanding how different age groups engage with products can help optimize marketing strategies.
+-- In this query, I analyze sales data categorized by customer age groups.
+-- I calculate customer ages based on birthdates and order dates, then group and count sales in different age ranges.
+
 
 WITH CTE_SalesAge AS (
     -- Common Table Expression to join and analyze sales data
     SELECT
         G.EnglishCountryRegionName,
-        DATEDIFF(YEAR, C.BirthDate, S.ORDERDATE) AS CustomerAge, -- Calculate customer ages when they placed orders
+        DATEDIFF(YEAR, C.BirthDate, S.ORDERDATE) AS CustomerAge, -- Calculating customer ages when they placed orders
         S.SalesOrderNumber
     FROM
         [AdventureWorksDW2019].[dbo].[FactInternetSales] AS S
